@@ -1,11 +1,11 @@
 #include "DxLib.h"
 
-#define GAME_WIDTH		800	//画面の横の大きさ
-#define GAME_HEIGHT		700	//画面の縦の大きさ
+#define GAME_WIDTH		640	//画面の横の大きさ
+#define GAME_HEIGHT		480	//画面の縦の大きさ
 #define GAME_COLOR		32	//画面のカラーピット
 
-#define GAME_WINDOW_BAR	0	//タイトルバーはデフォルトにする
-#define GAME_WINDOW_NAME	"GAME_TITLE"	//ウィンドウのタイトル
+#define GAME_WINDOW_BAR		0	//タイトルバーはデフォルトにする
+#define GAME_WINDOW_NAME	"Dxlib_Movie"	//ウィンドウのタイトル
 
 //MOVIEフォルダと、mp4ファイルも追加してください
 #define MOVIE_PATH  ".\\MOVIE\\srn.mp4"	//動画パス
@@ -16,6 +16,7 @@ int handle = -1;
 int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPSTR lpCmdline, int nCmdShow)
 {
 	SetOutApplicationLogValidFlag(FALSE);				//log.txtを出力しない
+	//log.txtは一回一回出力するからいらないかも？
 	ChangeWindowMode(TRUE);								//ウィンドウモードに設定
 	SetGraphMode(GAME_WIDTH, GAME_HEIGHT, GAME_COLOR);	//指定の数値はウィンドウを表示する
 	SetWindowStyleMode(GAME_WINDOW_BAR);				//タイトルバーはデフォルトにする
