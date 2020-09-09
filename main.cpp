@@ -1,47 +1,47 @@
 #include "DxLib.h"
 
-#define GAME_WIDTH		640	//��ʂ̉��̑傫��
-#define GAME_HEIGHT		480	//��ʂ̏c�̑傫��
-#define GAME_COLOR		32	//��ʂ̃J���[�s�b�g
+#define GAME_WIDTH		640	//画面の横の大きさ
+#define GAME_HEIGHT		480	//画面の縦の大きさ
+#define GAME_COLOR		32	//画面のカラーピット
 
-#define GAME_WINDOW_BAR		0	//�^�C�g���o�[�̓f�t�H���g�ɂ���
-#define GAME_WINDOW_NAME	"Dxlib_Movie"	//�E�B���h�E�̃^�C�g��
+#define GAME_WINDOW_BAR		0	//タイトルバーはデフォルトにする
+#define GAME_WINDOW_NAME	"Dxlib_Movie"	//ウィンドウのタイトル
 
-//MOVIE�t�H���_�ƁAmp4�t�@�C�����ǉ����Ă�������
-#define MOVIE_PATH  ".\\MOVIE\\srn.mp4"	//����p�X
+//MOVIEフォルダと、mp4ファイルも追加してください
+#define MOVIE_PATH  ".\\MOVIE\\srn.mp4"	//動画パス
 
-//����̃n���h��
+//動画のハンドル
 int handle = -1;
 
 int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPSTR lpCmdline, int nCmdShow)
 {
-	SetOutApplicationLogValidFlag(FALSE);				//log.txt���o�͂��Ȃ�
-	//log.txt�͈����o�͂��邩�炢��Ȃ������H
-	ChangeWindowMode(TRUE);								//�E�B���h�E���[�h�ɐݒ�
-	SetGraphMode(GAME_WIDTH, GAME_HEIGHT, GAME_COLOR);	//�w��̐��l�̓E�B���h�E��\������
-	SetWindowStyleMode(GAME_WINDOW_BAR);				//�^�C�g���o�[�̓f�t�H���g�ɂ���
-	SetMainWindowText(TEXT(GAME_WINDOW_NAME));			//�E�B���h�E�̃^�C�g���̕���
-	SetAlwaysRunFlag(TRUE);								//��A�N�e�B�u�ł����s����
+	SetOutApplicationLogValidFlag(FALSE);				//log.txtを出力しない
+	//log.txtは一回一回出力するからいらないかも？
+	ChangeWindowMode(TRUE);								//ウィンドウモードに設定
+	SetGraphMode(GAME_WIDTH, GAME_HEIGHT, GAME_COLOR);	//指定の数値はウィンドウを表示する
+	SetWindowStyleMode(GAME_WINDOW_BAR);				//タイトルバーはデフォルトにする
+	SetMainWindowText(TEXT(GAME_WINDOW_NAME));			//ウィンドウのタイトルの文字
+	SetAlwaysRunFlag(TRUE);								//非アクティブでも実行する
 
-	//DXLib����������
+	//DXLib初期化処理
 	if (DxLib_Init() == -1)
 	{
 		return -1;
 	}
 
-	//����̓ǂݍ���
+	//動画の読み込み
 	handle = LoadGraph(MOVIE_PATH);
 
-	//�������[�v
+	//無限ループ
 	while (TRUE)
 	{
-		//���b�Z�[�W�����̌��ʂ��G���[�̂Ƃ��A�����I��
+		//メッセージ処理の結果がエラーのとき、強制終了
 		if (ProcessMessage() != 0)
 		{
 			break;
 		}
 
-		//��ʂ������ł��Ȃ������Ƃ��A�����I��
+		//画面を消去できなかったとき、強制終了
 		if (ClearDrawScreen() != 0)
 		{
 			break;
@@ -49,29 +49,30 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPSTR lpCmdline
 
 		if (GetMovieStateToGraph(handle) == 0)
 		{
-			SeekMovieToGraph(handle, 0);	//����̍Đ��o�[���ŏ��ɂ���
-			PlayMovieToGraph(handle);		//������Đ���Ԃɂ���
+			SeekMovieToGraph(handle, 0);	//動画の再生バーを最初にする
+			PlayMovieToGraph(handle);		//動画を再生状態にする
 
-			//����̉��𒲐�����(0�������`255������̉���)
+			//動画の音を調整する(0が無音～255が動画の音量)
 			ChangeMovieVolumeToGraph(127, handle);
 		}
 
-		//�^�C�g������`��
+		//タイトル動画描画
 		//DrawGraph(0, 0, handle, FALSE);
 
-		//����T�C�Y�𓯂��ɂ���(�����x������)
+		//動画サイズを同じにする(処理遅いかも)
 		DrawExtendGraph(0, 0, GAME_WIDTH, GAME_HEIGHT, handle, FALSE);
 
-		DrawString(0, 0, "������Đ����Ă��܂��E�E�E", GetColor(255, 255, 255));
+		DrawString(0, 0, "動画を再生しています・・・", GetColor(255, 255, 255));
+		DrawString(0, 0, "ソ連国家の動画" ,GatColor(255, 255, 255));
 
-		//���j�^�̃��t���b�V����0�Ƃ̑����ŗ���ʂ��ĕ`��
+		//モニタのリフレッシュレ0との速さで裏画面を再描画
 		ScreenFlip();
 	}
 
-	//DX���C�u�����g�p�̏I������
+	//DXライブラリ使用の終了処理
 	DxLib_End();
 
-	//����̍폜
+	//動画の削除
 	DeleteGraph(handle);
 
 	return 0;
