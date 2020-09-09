@@ -1,47 +1,47 @@
 #include "DxLib.h"
 
-#define GAME_WIDTH		640	//ç”»é¢ã®æ¨ªã®å¤§ãã•
-#define GAME_HEIGHT		480	//ç”»é¢ã®ç¸¦ã®å¤§ãã•
-#define GAME_COLOR		32	//ç”»é¢ã®ã‚«ãƒ©ãƒ¼ãƒ”ãƒƒãƒˆ
+#define GAME_WIDTH		640	//‰æ–Ê‚Ì‰¡‚Ì‘å‚«‚³
+#define GAME_HEIGHT		480	//‰æ–Ê‚Ìc‚Ì‘å‚«‚³
+#define GAME_COLOR		32	//‰æ–Ê‚ÌƒJƒ‰[ƒsƒbƒg
 
-#define GAME_WINDOW_BAR		0	//ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã«ã™ã‚‹
-#define GAME_WINDOW_NAME	"Dxlib_Movie"	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«
+#define GAME_WINDOW_BAR		0	//ƒ^ƒCƒgƒ‹ƒo[‚ÍƒfƒtƒHƒ‹ƒg‚É‚·‚é
+#define GAME_WINDOW_NAME	"Dxlib_Movie"	//ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹
 
-//MOVIEãƒ•ã‚©ãƒ«ãƒ€ã¨ã€mp4ãƒ•ã‚¡ã‚¤ãƒ«ã‚‚è¿½åŠ ã—ã¦ãã ã•ã„
-#define MOVIE_PATH  ".\\MOVIE\\srn.mp4"	//å‹•ç”»ãƒ‘ã‚¹
+//MOVIEƒtƒHƒ‹ƒ_‚ÆAmp4ƒtƒ@ƒCƒ‹‚à’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+#define MOVIE_PATH  ".\\MOVIE\\srn.mp4"	//“®‰æƒpƒX
 
-//å‹•ç”»ã®ãƒãƒ³ãƒ‰ãƒ«
+//“®‰æ‚Ìƒnƒ“ƒhƒ‹
 int handle = -1;
 
 int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPSTR lpCmdline, int nCmdShow)
 {
-	SetOutApplicationLogValidFlag(FALSE);				//log.txtã‚’å‡ºåŠ›ã—ãªã„
-	//log.txtã¯ä¸€å›žä¸€å›žå‡ºåŠ›ã™ã‚‹ã‹ã‚‰ã„ã‚‰ãªã„ã‹ã‚‚ï¼Ÿ
-	ChangeWindowMode(TRUE);								//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã«è¨­å®š
-	SetGraphMode(GAME_WIDTH, GAME_HEIGHT, GAME_COLOR);	//æŒ‡å®šã®æ•°å€¤ã¯ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤ºã™ã‚‹
-	SetWindowStyleMode(GAME_WINDOW_BAR);				//ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã«ã™ã‚‹
-	SetMainWindowText(TEXT(GAME_WINDOW_NAME));			//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«ã®æ–‡å­—
-	SetAlwaysRunFlag(TRUE);								//éžã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã§ã‚‚å®Ÿè¡Œã™ã‚‹
+	SetOutApplicationLogValidFlag(FALSE);				//log.txt‚ðo—Í‚µ‚È‚¢
+	//log.txt‚Íˆê‰ñˆê‰ño—Í‚·‚é‚©‚ç‚¢‚ç‚È‚¢‚©‚àH
+	ChangeWindowMode(TRUE);								//ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚ÉÝ’è
+	SetGraphMode(GAME_WIDTH, GAME_HEIGHT, GAME_COLOR);	//Žw’è‚Ì”’l‚ÍƒEƒBƒ“ƒhƒE‚ð•\Ž¦‚·‚é
+	SetWindowStyleMode(GAME_WINDOW_BAR);				//ƒ^ƒCƒgƒ‹ƒo[‚ÍƒfƒtƒHƒ‹ƒg‚É‚·‚é
+	SetMainWindowText(TEXT(GAME_WINDOW_NAME));			//ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹‚Ì•¶Žš
+	SetAlwaysRunFlag(TRUE);								//”ñƒAƒNƒeƒBƒu‚Å‚àŽÀs‚·‚é
 
-	//DXLibåˆæœŸåŒ–å‡¦ç†
+	//DXLib‰Šú‰»ˆ—
 	if (DxLib_Init() == -1)
 	{
 		return -1;
 	}
 
-	//å‹•ç”»ã®èª­ã¿è¾¼ã¿
+	//“®‰æ‚Ì“Ç‚Ýž‚Ý
 	handle = LoadGraph(MOVIE_PATH);
 
-	//ç„¡é™ãƒ«ãƒ¼ãƒ—
+	//–³ŒÀƒ‹[ƒv
 	while (TRUE)
 	{
-		//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†ã®çµæžœãŒã‚¨ãƒ©ãƒ¼ã®ã¨ãã€å¼·åˆ¶çµ‚äº†
+		//ƒƒbƒZ[ƒWˆ—‚ÌŒ‹‰Ê‚ªƒGƒ‰[‚Ì‚Æ‚«A‹­§I—¹
 		if (ProcessMessage() != 0)
 		{
 			break;
 		}
 
-		//ç”»é¢ã‚’æ¶ˆåŽ»ã§ããªã‹ã£ãŸã¨ãã€å¼·åˆ¶çµ‚äº†
+		//‰æ–Ê‚ðÁ‹Ž‚Å‚«‚È‚©‚Á‚½‚Æ‚«A‹­§I—¹
 		if (ClearDrawScreen() != 0)
 		{
 			break;
@@ -49,30 +49,30 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance, LPSTR lpCmdline
 
 		if (GetMovieStateToGraph(handle) == 0)
 		{
-			SeekMovieToGraph(handle, 0);	//å‹•ç”»ã®å†ç”Ÿãƒãƒ¼ã‚’æœ€åˆã«ã™ã‚‹
-			PlayMovieToGraph(handle);		//å‹•ç”»ã‚’å†ç”ŸçŠ¶æ…‹ã«ã™ã‚‹
+			SeekMovieToGraph(handle, 0);	//“®‰æ‚ÌÄ¶ƒo[‚ðÅ‰‚É‚·‚é
+			PlayMovieToGraph(handle);		//“®‰æ‚ðÄ¶ó‘Ô‚É‚·‚é
 
-			//å‹•ç”»ã®éŸ³ã‚’èª¿æ•´ã™ã‚‹(0ãŒç„¡éŸ³ï½ž255ãŒå‹•ç”»ã®éŸ³é‡)
+			//“®‰æ‚Ì‰¹‚ð’²®‚·‚é(0‚ª–³‰¹`255‚ª“®‰æ‚Ì‰¹—Ê)
 			ChangeMovieVolumeToGraph(127, handle);
 		}
 
-		//ã‚¿ã‚¤ãƒˆãƒ«å‹•ç”»æç”»
+		//ƒ^ƒCƒgƒ‹“®‰æ•`‰æ
 		//DrawGraph(0, 0, handle, FALSE);
 
-		//å‹•ç”»ã‚µã‚¤ã‚ºã‚’åŒã˜ã«ã™ã‚‹(å‡¦ç†é…ã„ã‹ã‚‚)
+		//“®‰æƒTƒCƒY‚ð“¯‚¶‚É‚·‚é(ˆ—’x‚¢‚©‚à)
 		DrawExtendGraph(0, 0, GAME_WIDTH, GAME_HEIGHT, handle, FALSE);
 
-		DrawString(0, 0, "å‹•ç”»ã‚’å†ç”Ÿã—ã¦ã„ã¾ã™ãƒ»ãƒ»ãƒ»", GetColor(255, 255, 255));
-		DrawString(0, 0, "ã‚½é€£å›½å®¶ã®å‹•ç”»" ,GatColor(255, 255, 255));
+		DrawString(0, 0, "“®‰æ‚ðÄ¶‚µ‚Ä‚¢‚Ü‚·EEE", GetColor(255, 255, 255));
+		DrawString(0, 20, "ƒ\˜A‘‰Æ‚Ì“®‰æ" ,GetColor(255, 255, 255));
 
-		//ãƒ¢ãƒ‹ã‚¿ã®ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥ãƒ¬0ã¨ã®é€Ÿã•ã§è£ç”»é¢ã‚’å†æç”»
+		//ƒ‚ƒjƒ^‚ÌƒŠƒtƒŒƒbƒVƒ…ƒŒ0‚Æ‚Ì‘¬‚³‚Å— ‰æ–Ê‚ðÄ•`‰æ
 		ScreenFlip();
 	}
 
-	//DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªä½¿ç”¨ã®çµ‚äº†å‡¦ç†
+	//DXƒ‰ƒCƒuƒ‰ƒŠŽg—p‚ÌI—¹ˆ—
 	DxLib_End();
 
-	//å‹•ç”»ã®å‰Šé™¤
+	//“®‰æ‚Ìíœ
 	DeleteGraph(handle);
 
 	return 0;
